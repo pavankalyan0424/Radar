@@ -26,10 +26,28 @@ class ProfileScreen extends StatelessWidget {
             actions: <Widget>[
               IconButton(
                 icon: Image.asset('assets/profile_screen/logout.png'),
-                onPressed: () async {
-                  await _controller.logout();
-                  Navigator.pushNamedAndRemoveUntil(
-                      context, '/login', (route) => false);
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        title: Text('Are You Sure?'),
+                        actions: [
+                          FlatButton(
+                            onPressed: () => Navigator.pop(context),
+                            child: Text('Cancel'),
+                          ),
+                          FlatButton(
+                              onPressed: () async {
+                                await _controller.logout();
+                                Navigator.pushNamedAndRemoveUntil(
+                                    context, '/login', (route) => false);
+                              },
+                              child: Text('Ok')),
+                        ],
+                      );
+                    },
+                  );
                 },
                 color: Colors.white,
               )
